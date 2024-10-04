@@ -17,11 +17,11 @@ for _, lsp in ipairs(servers) do
 end
 
 -- typescript
-lspconfig.tsserver.setup {
-    on_attach = on_attach,
-    on_init = on_init,
-    capabilities = capabilities,
-}
+-- lspconfig.tsserver.setup {
+--     on_attach = on_attach,
+--     on_init = on_init,
+--     capabilities = capabilities,
+-- }
 
 -- C plus plus
 lspconfig.clangd.setup {
@@ -58,8 +58,63 @@ lspconfig.rust_analyzer.setup {
     },
 }
 -- Python
+
+-- Helper function to check for virtual environment
+local function find_nearest_venv_path(start_path)
+    local uv = vim.loop
+    local function is_venv(path)
+        return uv.fs_stat(path .. "/bin/python") ~= nil
+    end
+
+    -- Function to get the parent directory
+    local function get_parent_dir(path)
+        return vim.fn.fnamemodify(path, ":h") -- Get parent directory
+    end
+
+    local dir = start_path
+    while dir ~= "/" do -- Stop when we reach root
+        local venv_path = dir .. "/env" -- Change to your naming convention, e.g., env, venv
+        if is_venv(venv_path) then
+            return venv_path .. "/bin/python"
+        end
+        dir = get_parent_dir(dir) -- Move to the parent directory
+    end
+end
 lspconfig.pyright.setup {
-    on_attach = on_attach,
+    on_attach = function(client, bufnr)
+        -- Find nearest virtual environment
+        local buf_path = vim.api.nvim_buf_get_name(bufnr) -- Get the full path of the current buffer
+        local venv_python = find_nearest_venv_path(buf_path)
+
+        if venv_python then
+            client.config.settings.python.pythonPath = venv_python
+            client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+        else
+            print "No virtual environment found, using global Python"
+        end
+    end,
     capabilities = capabilities,
     filetypes = { "python" },
+}
+
+-- Unity
+lspconfig.omnisharp.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    cmd = {
+        "OmniSharp",
+        "-z",
+        "--hostPID",
+        tostring(vim.fn.getpid()),
+        "DotNet:enablePackageRestore=false",
+        "--encoding",
+        "utf-8",
+        "--languageserver",
+        "FormattingOptions:EnableEditorConfigSupport=true",
+        "Sdk:IncludePrereleases=true",
+    },
+    -- cmd = { "omnisharp", "-z", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
+    enable_roslyn_analyzers = true,
+    organize_imports_on_format = true,
+    enable_import_completion = true,
 }

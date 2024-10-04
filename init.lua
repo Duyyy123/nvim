@@ -24,6 +24,7 @@ require("lazy").setup({
         end,
     },
 
+    -- { import = "lazyvim.plugins.extras.lang.omnisharp" },
     { import = "plugins" },
 }, lazy_config)
 
@@ -36,12 +37,22 @@ require "nvchad.autocmds"
 vim.schedule(function()
     require "mappings"
 end)
--- Set tab width to 4 spaces
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
-vim.opt.softtabstop = 4
 
--- Optional: Set auto-indenting
-vim.opt.autoindent = true
-vim.opt.smartindent = true
+-- Function to open NvimTree and set the directory when opening Neovim with a folder
+local function open_nvim_tree(data)
+    -- Check if the buffer is a directory
+    local directory = vim.fn.isdirectory(data.file) == 1
+
+    if not directory then
+        return
+    end
+
+    -- Change to the directory
+    vim.cmd.cd(data.file)
+
+    -- Open NvimTree
+    require("nvim-tree.api").tree.open()
+end
+
+-- Auto command to trigger the function on VimEnter
+vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })

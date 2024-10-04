@@ -14,7 +14,6 @@ return {
             require "configs.lspconfig"
         end,
     },
-    --
     {
         "williamboman/mason.nvim",
         opts = {
@@ -28,19 +27,20 @@ return {
                 -- rust
                 "rust-analyzer",
                 "bacon-ls",
-                -- "rustfmt",
                 -- python
                 "debugpy",
                 "pyright",
                 "ruff",
+                -- c_sharp
+                "csharpier",
+                "netcoredbg",
                 -- DAP
-                "codespell",
-                --
                 "codelldb",
+                --
+                "codespell",
             },
         },
     },
-
     {
         "nvim-treesitter/nvim-treesitter",
         opts = {
@@ -50,18 +50,223 @@ return {
                 "vimdoc",
                 "cpp",
                 "c",
+                "c_sharp",
                 "python",
                 "rust",
             },
         },
     },
-    -- debugger
+
+    { "MunifTanjim/nui.nvim", lazy = true },
+    { "Hoffs/omnisharp-extended-lsp.nvim", lazy = true },
+
+    -- image viewing
     {
-        "nvim-neotest/nvim-nio",
+        "vhyrro/luarocks.nvim",
+        priority = 1001, -- this plugin needs to run before anything else
+        opts = {
+            rocks = { "magick" },
+        },
+        lazy = false,
     },
     {
+        "3rd/image.nvim",
+        config = function()
+            -- default config
+            require("image").setup {
+                backend = "kitty",
+                integrations = {
+                    markdown = {
+                        enabled = true,
+                        clear_in_insert_mode = false,
+                        download_remote_images = true,
+                        only_render_image_at_cursor = false,
+                        filetypes = { "markdown", "vimwiki" }, -- markdown extensions (ie. quarto) can go here
+                        resolve_image_path = function(document_path, image_path, fallback)
+                            -- document_path is the path to the file that contains the image
+                            -- image_path is the potentially relative path to the image. for
+                            -- markdown it's `![](this text)`
+
+                            -- you can call the fallback function to get the default behavior
+                            return fallback(document_path, image_path)
+                        end,
+                    },
+                    neorg = {
+                        enabled = true,
+                        clear_in_insert_mode = false,
+                        download_remote_images = true,
+                        only_render_image_at_cursor = false,
+                        filetypes = { "norg" },
+                    },
+                    html = {
+                        enabled = true,
+                    },
+                    css = {
+                        enabled = false,
+                    },
+                },
+                max_width = nil,
+                max_height = nil,
+                max_width_window_percentage = nil,
+                max_height_window_percentage = 50,
+                window_overlap_clear_enabled = false, -- toggles images when windows are overlapped
+                window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
+                editor_only_render_when_focused = false, -- auto show/hide images when the editor gains/looses focus
+                tmux_show_only_in_active_window = false, -- auto show/hide images in the correct Tmux window (needs visual-activity off)
+                hijack_file_patterns = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp", "*.avif" }, -- render image files as images when opened
+            }
+        end,
+        lazy = false,
+    },
+
+    -- markdown preview
+    {
+        "MeanderingProgrammer/render-markdown.nvim",
+        opts = {},
+        -- dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
+        -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
+        dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" }, -- if you prefer nvim-web-devicons
+        lazy = false,
+    },
+
+    -- Competitive programming helper
+    {
+        "xeluxee/competitest.nvim",
+        dependencies = "MunifTanjim/nui.nvim",
+        -- cmd = { "CompetiTest" },
+        config = function()
+            require("competitest").setup {
+                testcases = {
+                    ui = {
+                        interface = "split", -- Split layout for test cases and outputs
+                        split = "horizontal", -- Horizontal split layout
+                        position = "right", -- Right position of the splits
+                    },
+                },
+                split = {
+                    vertical = {
+                        enabled = true, -- Enable vertical split for the test case view
+                        size = 40, -- Adjust the width for the split layout
+                    },
+                },
+            }
+        end,
+        lazy = false,
+    },
+
+    -- Session handle
+    {
+        "rmagatti/auto-session",
+        lazy = false,
+        dependencies = {
+            "nvim-telescope/telescope.nvim",
+        },
+        keys = {
+            -- Will use Telescope if installed or a vim.ui.select picker otherwise
+            { "<leader>wS", "<cmd>SessionSearch<CR>", desc = "Session search" },
+            { "<leader>ws", "<cmd>SessionSave<CR>", desc = "Save session" },
+            { "<leader>wA", "<cmd>SessionToggleAutoSave<CR>", desc = "Toggle autosave" },
+        },
+
+        ---enables autocomplete for opts
+        ---@module "auto-session"
+        ---@type AutoSession.Config
+        opts = {
+            -- ⚠️ This will only work if Telescope.nvim is installed
+            -- The following are already the default values, no need to provide them if these are already the settings you want.
+            session_lens = {
+                -- If load_on_setup is false, make sure you use `:SessionSearch` to open the picker as it will initialize everything first
+                load_on_setup = true,
+                previewer = false,
+                mappings = {
+                    -- Mode can be a string or a table, e.g. {"i", "n"} for both insert and normal mode
+                    delete_session = { "i", "<C-D>" },
+                    alternate_session = { "i", "<C-S>" },
+                },
+                -- Can also set some Telescope picker options
+                theme_conf = {
+                    border = true,
+                    -- layout_config = {
+                    --   width = 0.8, -- Can set width and height as percent of window
+                    --   height = 0.5,
+                    -- },
+                },
+            },
+        },
+        config = function()
+            require("auto-session").setup {
+                enabled = true, -- Enables/disables auto creating, saving and restoring
+                root_dir = vim.fn.stdpath "data" .. "/sessions/", -- Root dir where sessions will be stored
+                auto_save = true, -- Enables/disables auto saving session on exit
+                auto_restore = true, -- Enables/disables auto restoring session on start
+                auto_create = true, -- Enables/disables auto creating new session files. Can take a function that should return true/false if a new session file should be created or not
+                suppressed_dirs = nil, -- Suppress session restore/create in certain directories
+                allowed_dirs = nil, -- Allow session restore/create in certain directories
+                auto_restore_last_session = false, -- On startup, loads the last saved session if session for cwd does not exist
+                use_git_branch = false, -- Include git branch name in session name
+                lazy_support = true, -- Automatically detect if Lazy.nvim is being used and wait until Lazy is done to make sure session is restored correctly. Does nothing if Lazy isn't being used. Can be disabled if a problem is suspected or for debugging
+                bypass_save_filetypes = nil, -- List of file types to bypass auto save when the only buffer open is one of the file types listed, useful to ignore dashboards
+                close_unsupported_windows = true, -- Close windows that aren't backed by normal file before autosaving a session
+                args_allow_single_directory = true, -- Follow normal sesion save/load logic if launched with a single directory as the only argument
+                args_allow_files_auto_save = false, -- Allow saving a session even when launched with a file argument (or multiple files/dirs). It does not load any existing session first. While you can just set this to true, you probably want to set it to a function that decides when to save a session when launched with file args. See documentation for more detail
+                continue_restore_on_error = true, -- Keep loading the session even if there's an error
+                cwd_change_handling = false, -- Follow cwd changes, saving a session before change and restoring after
+                log_level = "error", -- Sets the log level of the plugin (debug, info, warn, error).
+
+                session_lens = {
+                    load_on_setup = true, -- Initialize on startup (requires Telescope)
+                    theme_conf = { -- Pass through for Telescope theme options
+                        -- layout_config = { -- As one example, can change width/height of picker
+                        --   width = 0.8,    -- percent of window
+                        --   height = 0.5,
+                        -- },
+                    },
+                    previewer = false, -- File preview for session picker
+
+                    mappings = {
+                        -- Mode can be a string or a table, e.g. {"i", "n"} for both insert and normal mode
+                        delete_session = { "i", "<C-D>" },
+                        alternate_session = { "i", "<C-S>" },
+                    },
+
+                    session_control = {
+                        control_dir = vim.fn.stdpath "data" .. "/auto_session/", -- Auto session control dir, for control files, like alternating between two sessions with session-lens
+                        control_filename = "session_control.json", -- File name of the session control file
+                    },
+                },
+            }
+        end,
+    },
+
+    -- Toggle terminal
+    {
+        "akinsho/toggleterm.nvim",
+        config = true,
+        cmd = "ToggleTerm",
+        keys = { { "<F2>", "<cmd>ToggleTerm<cr>", desc = "Toggle floating terminal" } },
+        opts = {
+            open_mapping = [[<F2>]],
+            direction = "float",
+            shade_filetypes = {},
+            hide_numbers = true,
+            insert_mappings = true,
+            terminal_mappings = true,
+            start_in_insert = true,
+            close_on_exit = true,
+        },
+    },
+
+    -- Testing
+    { "nvim-neotest/nvim-nio" },
+    {
         "nvim-neotest/neotest",
-        dependencies = { "nvim-neotest/nvim-nio", "nvim-lua/plenary.nvim", "alfaix/neotest-gtest" },
+        dependencies = {
+            "nvim-neotest/nvim-nio",
+            "nvim-lua/plenary.nvim",
+            "alfaix/neotest-gtest",
+            -- "antoinemadec/FixCursorHold.nvim",
+            -- "nvim-treesitter/nvim-treesitter",
+        },
         opts = {
             -- Can be a list of adapters like what neotest expects,
             -- or a list of adapter names,
@@ -178,6 +383,8 @@ return {
             { "<leader>tw", function() require("neotest").watch.toggle(vim.fn.expand("%")) end, desc = "Toggle Watch" },
         },
     },
+
+    -- debugger
     {
         "rcarriga/nvim-dap-ui",
         -- event = "VeryLazy",
@@ -425,15 +632,6 @@ return {
         config = function()
             local path = "~/.local/share/nvim/mason/packages/debugpy/venv/bin/python"
             require("dap-python").setup(path)
-        end,
-    },
-    -- markdown preview
-    {
-        "iamcco/markdown-preview.nvim",
-        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-        ft = { "markdown" },
-        build = function()
-            vim.fn["mkdp#util#install"]()
         end,
     },
 }

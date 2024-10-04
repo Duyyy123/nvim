@@ -12,10 +12,16 @@ local options = {
                 return { "isort", "black" }
             end
         end,
+        cs = { "csharpier" },
         -- ["*"] = { "codespell" },
         ["_"] = { "trim_whitespace" },
     },
-
+    formatters = {
+        csharpier = {
+            command = "dotnet-csharpier",
+            args = { "--write-stdout" },
+        },
+    },
     format_on_save = {
         -- These options will be passed to conform.format()
         timeout_ms = 500,
