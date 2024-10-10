@@ -29,6 +29,7 @@ lspconfig.clangd.setup {
     capabilities = capabilities,
     filetypes = { "c", "cpp" },
 }
+
 -- Rust
 lspconfig.rust_analyzer.setup {
     on_attach = on_attach,
@@ -57,8 +58,8 @@ lspconfig.rust_analyzer.setup {
         },
     },
 }
--- Python
 
+-- Python
 -- Helper function to check for virtual environment
 local function find_nearest_venv_path(start_path)
     local uv = vim.loop
@@ -73,10 +74,18 @@ local function find_nearest_venv_path(start_path)
 
     local dir = start_path
     while dir ~= "/" do -- Stop when we reach root
+        -- Check for virtual environments (e.g., "env", "venv", or others)
         local venv_path = dir .. "/env" -- Change to your naming convention, e.g., env, venv
         if is_venv(venv_path) then
             return venv_path .. "/bin/python"
         end
+
+        -- Check for Conda environment by looking for 'conda-meta'
+        venv_path = dir .. "conda-meta"
+        if is_venv(venv_path) then
+            return venv_path .. "/bin/python"
+        end
+
         dir = get_parent_dir(dir) -- Move to the parent directory
     end
 end

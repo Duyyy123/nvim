@@ -9,7 +9,7 @@ local options = {
             if require("conform").get_formatter_info("ruff_format", bufnr).available then
                 return { "ruff_format" }
             else
-                return { "isort", "black" }
+                return { "blacked-client", "isort", "black" }
             end
         end,
         cs = { "csharpier" },

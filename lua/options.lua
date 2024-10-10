@@ -234,12 +234,14 @@ local function ChangeDirectory()
 end
 vim.api.nvim_create_user_command("ChangeDirectory", ChangeDirectory, {})
 
+local lazygit = nil
 local function ToggleLazyGit()
-    require("toggleterm.terminal").Terminal
-        :new({
+    if not lazygit then
+        lazygit = require("toggleterm.terminal").Terminal:new {
             cmd = "lazygit",
             hidden = true,
-        })
-        :toggle()
+        }
+    end
+    lazygit:toggle()
 end
 vim.api.nvim_create_user_command("ToggleLazyGit", ToggleLazyGit, {})
