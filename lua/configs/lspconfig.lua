@@ -17,11 +17,11 @@ for _, lsp in ipairs(servers) do
 end
 
 -- typescript
--- lspconfig.tsserver.setup {
---     on_attach = on_attach,
---     on_init = on_init,
---     capabilities = capabilities,
--- }
+lspconfig.ts_ls.setup {
+    on_attach = on_attach,
+    on_init = on_init,
+    capabilities = capabilities,
+}
 
 -- C plus plus
 lspconfig.clangd.setup {

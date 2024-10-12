@@ -185,6 +185,7 @@ local function CompileAndExcuteRusCCpp()
             vim.cmd "wincmd j"
         end, 100)
     else
+        -- vim.cmd ""
         -- If terminal exists, send the compile and run command
         if valid_job_id then
             vim.fn.chansend(valid_job_id, compile_command)

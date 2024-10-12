@@ -13,7 +13,7 @@ local options = {
             end
         end,
         cs = { "csharpier" },
-        -- ["*"] = { "codespell" },
+        ["*"] = { "codespell" },
         ["_"] = { "trim_whitespace" },
     },
     formatters = {

@@ -18,3 +18,9 @@ map("n", "<C-S-r>", ":b#<CR>")
 map("n", "<leader>cd", "<cmd>ChangeDirectory<CR>", { desc = "Change Directory", noremap = true, silent = true })
 map("n", "<leader>rr", "<cmd>CompileAndExcuteRusCCpp<CR>", { desc = "Run C, CPP, Rust" })
 map("n", "<leader>lg", "<cmd>ToggleLazyGit<CR>", { desc = "Toggle lazygit", noremap = true, silent = true })
+map(
+    "n",
+    "<leader>fe",
+    "<cmd>lua vim.diagnostic.open_float()<CR>",
+    { desc = "View full error", noremap = true, silent = true }
+)
