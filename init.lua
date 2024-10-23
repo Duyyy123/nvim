@@ -56,3 +56,9 @@ end
 
 -- Auto command to trigger the function on VimEnter
 vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
+-- Auto command to trigger reload buffer
+vim.o.autoread = true
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
+    pattern = "*",
+    command = "checktime",
+})

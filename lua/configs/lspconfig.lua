@@ -30,6 +30,26 @@ lspconfig.clangd.setup {
     filetypes = { "c", "cpp" },
 }
 
+-- R language
+lspconfig.r_language_server.setup {
+    lazy = false,
+    cmd = { "R", "--slave", "-e", "languageserver::run()" },
+    filetypes = { "r", "rmd" }, -- Add any other filetypes if needed
+    root_dir = lspconfig.util.root_pattern(".git", "."),
+    settings = {
+        r = {
+            lsp = {
+                diagnostics = true, -- Enable diagnostics
+                server_capabilities = {
+                    definitionProvider = true,
+                },
+            },
+        },
+    },
+    on_attach = on_attach,
+    capabilities = capabilities,
+}
+
 -- Rust
 lspconfig.rust_analyzer.setup {
     on_attach = on_attach,

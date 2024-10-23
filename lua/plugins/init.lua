@@ -54,12 +54,74 @@ return {
                 "c_sharp",
                 "python",
                 "rust",
+                "markdown",
+                "markdown_inline",
+                "r",
+                "rnoweb",
+                "yaml",
             },
+            highlight = { enable = true },
         },
     },
 
     { "MunifTanjim/nui.nvim", lazy = true },
     { "Hoffs/omnisharp-extended-lsp.nvim", lazy = true },
+    -- R language setup
+    {
+        "R-nvim/R.nvim",
+        -- Only required if you also set defaults.lazy = true
+        lazy = false,
+        -- R.nvim is still young and we may make some breaking changes from time
+        -- to time. For now we recommend pinning to the latest minor version
+        -- like so:
+        version = "~0.1.0",
+        -- config = function()
+        --     -- Create a table with the options to be passed to setup()
+        --     local opts = {
+        --         hook = {
+        --             on_filetype = function()
+        --                 vim.api.nvim_buf_set_keymap(0, "n", "<Enter>", "<Plug>RDSendLine", {})
+        --                 vim.api.nvim_buf_set_keymap(0, "v", "<Enter>", "<Plug>RSendSelection", {})
+        --             end,
+        --         },
+        --         R_args = { "--quiet", "--no-save" },
+        --         min_editor_width = 72,
+        --         rconsole_width = 78,
+        --         objbr_mappings = { -- Object browser keymap
+        --             c = "class", -- Call R functions
+        --             ["<localleader>gg"] = "head({object}, n = 15)", -- Use {object} notation to write arbitrary R code.
+        --             v = function()
+        --                 -- Run lua functions
+        --                 require("r.browser").toggle_view()
+        --             end,
+        --         },
+        --         disable_cmds = {
+        --             "RClearConsole",
+        --             "RCustomStart",
+        --             "RSPlot",
+        --             "RSaveClose",
+        --         },
+        --     }
+        --     -- Check if the environment variable "R_AUTO_START" exists.
+        --     -- If using fish shell, you could put in your config.fish:
+        --     -- alias r "R_AUTO_START=true nvim"
+        --     if vim.env.R_AUTO_START == "true" then
+        --         opts.auto_start = "on startup"
+        --         opts.objbr_auto_start = true
+        --     end
+        --     require("r").setup(opts)
+        -- end,
+    },
+    {
+        "R-nvim/cmp-r",
+        -- {
+        --     "hrsh7th/nvim-cmp",
+        --     config = function()
+        --         require("cmp").setup { sources = { { name = "cmp_r" } } }
+        --         require("cmp_r").setup {}
+        --     end,
+        -- },
+    },
 
     -- image viewing
     {
@@ -208,7 +270,7 @@ return {
                 lazy_support = true, -- Automatically detect if Lazy.nvim is being used and wait until Lazy is done to make sure session is restored correctly. Does nothing if Lazy isn't being used. Can be disabled if a problem is suspected or for debugging
                 bypass_save_filetypes = nil, -- List of file types to bypass auto save when the only buffer open is one of the file types listed, useful to ignore dashboards
                 close_unsupported_windows = true, -- Close windows that aren't backed by normal file before autosaving a session
-                args_allow_single_directory = true, -- Follow normal sesion save/load logic if launched with a single directory as the only argument
+                args_allow_single_directory = true, -- Follow normal session save/load logic if launched with a single directory as the only argument
                 args_allow_files_auto_save = false, -- Allow saving a session even when launched with a file argument (or multiple files/dirs). It does not load any existing session first. While you can just set this to true, you probably want to set it to a function that decides when to save a session when launched with file args. See documentation for more detail
                 continue_restore_on_error = true, -- Keep loading the session even if there's an error
                 cwd_change_handling = false, -- Follow cwd changes, saving a session before change and restoring after
