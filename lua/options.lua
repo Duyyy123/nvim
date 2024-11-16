@@ -5,6 +5,8 @@ require "nvchad.options"
 local o = vim.o
 o.cursorlineopt = "both" -- to enable cursorline!
 
+vim.o.shell = "/bin/zsh"
+
 -- Fold config
 vim.opt.foldmethod = "indent"
 vim.opt.foldcolumn = "1"
