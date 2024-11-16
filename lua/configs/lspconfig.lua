@@ -46,7 +46,17 @@ lspconfig.r_language_server.setup {
             },
         },
     },
-    on_attach = on_attach,
+    on_attach = function(client, bufnr)
+        -- Set 4-space indentation for R files
+        vim.bo[bufnr].shiftwidth = 4
+        vim.bo[bufnr].tabstop = 4
+        vim.bo[bufnr].expandtab = true -- Convert tabs to spaces
+
+        -- Call your on_attach function if it’s defined
+        if on_attach then
+            on_attach(client, bufnr)
+        end
+    end,
     capabilities = capabilities,
 }
 

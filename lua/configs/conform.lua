@@ -13,6 +13,7 @@ local options = {
             end
         end,
         cs = { "csharpier" },
+        -- r = { "styler" },
         ["*"] = { "codespell" },
         ["_"] = { "trim_whitespace" },
     },
@@ -20,6 +21,22 @@ local options = {
         csharpier = {
             command = "dotnet-csharpier",
             args = { "--write-stdout" },
+        },
+        styler = {
+            command = "R",
+            args = {
+                "--slave",
+                "-e",
+                [[
+                    file <- commandArgs(trailingOnly = TRUE)[1]
+                    if (grepl("\\.R$|\\.Rmd$|\\.qmd$|\\.Rnw$|\\.r$", file)) {
+                        styler::style_file(file, indentation = 2)
+                    } else {
+                        stop("File is not a valid R script.")
+                    }
+                ]],
+            },
+            stdin = true,
         },
     },
     format_on_save = {

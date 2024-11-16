@@ -246,3 +246,31 @@ local function ToggleLazyGit()
     lazygit:toggle()
 end
 vim.api.nvim_create_user_command("ToggleLazyGit", ToggleLazyGit, {})
+
+-- Signal variable for auto-session activity
+local auto_session_active = false
+
+-- Set up auto-session hooks
+vim.api.nvim_create_autocmd("User", {
+    pattern = "AutoSessionRestorePre",
+    callback = function()
+        auto_session_active = true
+    end,
+})
+
+vim.api.nvim_create_autocmd("User", {
+    pattern = "AutoSessionRestorePost",
+    callback = function()
+        auto_session_active = false
+    end,
+})
+
+-- Modify FocusGained and BufEnter autocmds
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
+    pattern = "*",
+    callback = function()
+        if not auto_session_active then
+            vim.cmd "checktime"
+        end
+    end,
+})
