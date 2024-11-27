@@ -88,6 +88,7 @@ lspconfig.rust_analyzer.setup {
         },
     },
 }
+-- Java
 
 -- Python
 -- Helper function to check for virtual environment

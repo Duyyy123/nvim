@@ -14,7 +14,7 @@ local options = {
         end,
         cs = { "csharpier" },
         -- r = { "styler" },
-        ["*"] = { "codespell" },
+        -- ["*"] = { "codespell" },
         ["_"] = { "trim_whitespace" },
     },
     formatters = {

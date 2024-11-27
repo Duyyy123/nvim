@@ -19,6 +19,9 @@ return {
         "williamboman/mason.nvim",
         opts = {
             ensure_installed = {
+                -- java
+                "jdtls",
+                -- "java-language-server",
                 -- lua
                 "lua-language-server",
                 "stylua",
@@ -46,6 +49,7 @@ return {
         "nvim-treesitter/nvim-treesitter",
         opts = {
             ensure_installed = {
+                "java",
                 "vim",
                 "lua",
                 "vimdoc",
@@ -135,14 +139,14 @@ return {
     },
 
     -- image viewing
-    {
-        "vhyrro/luarocks.nvim",
-        priority = 1001, -- this plugin needs to run before anything else
-        opts = {
-            rocks = { "magick" },
-        },
-        lazy = false,
-    },
+    -- {
+    --     "vhyrro/luarocks.nvim",
+    --     priority = 1001, -- this plugin needs to run before anything else
+    --     opts = {
+    --         rocks = { "magick" },
+    --     },
+    --     lazy = false,
+    -- },
     {
         "3rd/image.nvim",
         config = function()
