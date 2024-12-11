@@ -16,7 +16,7 @@ map("n", "<C-S-r>", ":b#<CR>")
 
 -- Mapping the function to a key (for example <leader>cd)
 map("n", "<leader>cd", "<cmd>ChangeDirectory<CR>", { desc = "Change Directory", noremap = true, silent = true })
-map("n", "<leader>rr", "<cmd>CompileAndExcuteRusCCpp<CR>", { desc = "Run C, CPP, Rust" })
+map("n", "<leader>rr", "<cmd>CompileAndExcute<CR>", { desc = "Run C, CPP, Rust, Java" })
 map("n", "<leader>lg", "<cmd>ToggleLazyGit<CR>", { desc = "Toggle lazygit", noremap = true, silent = true })
 map(
     "n",

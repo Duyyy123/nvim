@@ -25,6 +25,7 @@ lspconfig.ts_ls.setup {
 
 -- C plus plus
 lspconfig.clangd.setup {
+    root_dir = util.root_pattern("compile_commands.json", "CMakeLists.txt", ".clangd"),
     on_attach = on_attach,
     capabilities = capabilities,
     filetypes = { "c", "cpp" },
@@ -89,7 +90,11 @@ lspconfig.rust_analyzer.setup {
     },
 }
 -- Java
-
+lspconfig.jdtls.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    filetypes = { "java" },
+}
 -- Python
 -- Helper function to check for virtual environment
 local function find_nearest_venv_path(start_path)

@@ -21,7 +21,7 @@ vim.opt.softtabstop = 4
 vim.opt.autoindent = true
 vim.opt.smartindent = true
 
-local function CompileAndExcuteRusCCpp()
+local function CompileAndExcute()
     -- Get the full file path and the file path without extension
     local full_path = vim.fn.expand "%:."
     local path_without_ext = vim.fn.expand "%:.:r"
@@ -72,6 +72,8 @@ local function CompileAndExcuteRusCCpp()
         compile_type = "g++"
     elseif file_ext == "rs" then
         compile_type = "rustc"
+    elseif file_ext == "java" then
+        compile_type = "javac"
     end
     -- Path to current buffer
     local current_buffer_dir = vim.fn.expand "%:p:r"
@@ -88,7 +90,9 @@ local function CompileAndExcuteRusCCpp()
         .. " && "
         .. run_binary
         .. "\n"
-
+    if compile_type == "javac" then
+        compile_command = "javac " .. full_path .. " && " .. "java " .. path_without_ext .. "\n"
+    end
     -- Find the nearest Cargo.toml file
     local bin_name = nil
     local cargo_toml_path = nil
@@ -199,7 +203,7 @@ local function CompileAndExcuteRusCCpp()
         vim.cmd "wincmd j"
     end
 end
-vim.api.nvim_create_user_command("CompileAndExcuteRusCCpp", CompileAndExcuteRusCCpp, {})
+vim.api.nvim_create_user_command("CompileAndExcute", CompileAndExcute, {})
 
 local function ChangeDirectory()
     local current_file = vim.api.nvim_buf_get_name(0) -- Get the current buffer's file name
