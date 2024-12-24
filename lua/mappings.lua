@@ -24,3 +24,23 @@ map(
     "<cmd>lua vim.diagnostic.open_float()<CR>",
     { desc = "View full error", noremap = true, silent = true }
 )
+
+-- serveral mapping for Competitest.nvim plugin:
+-- run
+-- show_ui
+-- add_testcase
+-- run_no_compile
+-- edit_testcase x(number of the testcase need to editt)
+-- delete_testcase x(number of the testcase need to delete)
+-- convert (auto, files_to_single_file, single_file_to_files)
+-- receive (testcase, problem, contest)
+map("n", "<leader>cct", "<cmd>CompetiTest run<CR>", { desc = "Run test" })
+map("n", "<leader>ccs", "<cmd>CompetiTest show_ui<CR>", { desc = "Show UI" })
+map("n", "<leader>cca", "<cmd>CompetiTest add_testcase<CR>", { desc = "Add testcase" })
+map("n", "<leader>ccr", "<cmd>CompetiTest run_no_compile<CR>", { desc = "Run without compile" })
+map("n", "<leader>cce", "<cmd>EditTestcase<CR>", { desc = "Edit testcase" })
+map("n", "<leader>ccd", "<cmd>DeleteTestcase<CR>", { desc = "Delete testcase" })
+-- 1 is auto, 2 is files_to_single_file, 3 is single_file_to_files
+map("n", "<leader>ccc", "<cmd>ConvertFileTestcase<CR>", { desc = "Convert" })
+-- 1 is testcase, 2 is problem, 3 is contest
+map("n", "<leader>ccv", "<cmd>ReceivedCompetiTest<CR>", { desc = "Receive" })

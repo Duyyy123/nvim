@@ -253,6 +253,65 @@ local function ToggleLazyGit()
 end
 vim.api.nvim_create_user_command("ToggleLazyGit", ToggleLazyGit, {})
 
+local function EditTestcase()
+    local count = vim.v.count
+    if count > 0 then
+        vim.cmd("CompetiTest edit_testcase " .. count)
+    else
+        print "Please provide a testcase number before pressing <leader>cce"
+    end
+end
+vim.api.nvim_create_user_command("EditTestcase", EditTestcase, {})
+
+local function DeleteTestcase()
+    local count = vim.v.count
+    if count > 0 then
+        vim.cmd("CompetiTest delete_testcase " .. count)
+    else
+        print "Please provide a testcase number before pressing <leader>ccd"
+    end
+end
+vim.api.nvim_create_user_command("DeleteTestcase", DeleteTestcase, {})
+
+local function ConvertFileTestcase()
+    --- there are 3 types of conversion:
+    --- null is auto: auto detect the conversion type
+    --- 1 is files_to_single_file: convert multiple files to a single file
+    --- 2 is single_file_to_files: convert a single file to multiple files
+    local conversion_type = vim.v.count
+    if conversion_type > 0 then
+        if conversion_type == 1 then
+            vim.cmd "CompetiTest convert files_to_single_file"
+        elseif conversion_type == 2 then
+            vim.cmd "CompetiTest convert single_file_to_files"
+        end
+    else
+        vim.cmd "CompetiTest convert auto"
+    end
+end
+vim.api.nvim_create_user_command("ConvertFileTestcase", ConvertFileTestcase, {})
+
+local function ReceviedCompetiTest()
+    local count = vim.v.count
+    if count > 0 then
+        local conversion_type = vim.v.count1
+        if conversion_type > 0 then
+            if conversion_type == 1 then
+                vim.cmd("CompetiTest receive testcase " .. count)
+            elseif conversion_type == 2 then
+                vim.cmd("CompetiTest receive problem " .. count)
+            elseif conversion_type == 3 then
+                vim.cmd("CompetiTest receive contest " .. count)
+            end
+        else
+            print "Please provide a receive type before pressing <leader>ccv"
+        end
+    else
+        print "Please provide a number before pressing <leader>ccv"
+    end
+end
+vim.api.nvim_create_user_command("ReceviedCompetiTest", ReceviedCompetiTest, {})
+
 -- Signal variable for auto-session activity
 local auto_session_active = false
 
