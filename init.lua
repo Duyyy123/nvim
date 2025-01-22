@@ -42,3 +42,5 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.softtabstop = 4
+vim.opt.foldcolumn = "1" -- Set the width of the fold column to 1
+vim.opt.foldmethod = "manual" -- Set the fold method to manual
