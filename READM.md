@@ -1,8 +1,9 @@
 # How to use
 - Install nvim and install NvChad
-- Clone this reposity to .confing/nvim
+- Clone this reposity to .config/nvim
 ## Post setup for image.nvim plugin
 ```sh
+sudo pacman -Syu imagemagick
 sudo pacman -S luarocks
 luarocks --local --lua-version=5.1 install magick
 ```
@@ -11,9 +12,7 @@ luarocks --local --lua-version=5.1 install magick
 ```
 :MasonInstallAll
 ```
-
-- Set up for fold:
-```
-:set foldmethod=indent
-:set foldcolumn=1
+## Post setup for lazygit
+```sh
+sudo pacman -S lazygit
 ```
