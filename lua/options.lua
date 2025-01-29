@@ -2,14 +2,21 @@ require "nvchad.options"
 
 -- add yours here!
 
-local o = vim.o
-o.cursorlineopt = "both" -- to enable cursorline!
+vim.o.cursorlineopt = "both" -- to enable cursorline!
 
-vim.o.shell = "/bin/zsh"
+-- Set the terminal
+vim.o.shell = "powershell.exe"
 
--- Fold config
-vim.opt.foldmethod = "indent"
+-- Set the clipboard
+vim.o.clipboard = "unnamedplus"
+
+-- set the fold to be open by default
+vim.o.foldlevelstart = 99
 vim.opt.foldcolumn = "1"
+vim.opt.foldmethod = "indent"
+
+-- set relativenumber
+vim.opt.relativenumber = true
 
 -- Set tab width to 4 spaces
 vim.opt.tabstop = 4
