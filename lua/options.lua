@@ -6,6 +6,14 @@ vim.o.cursorlineopt = "both" -- to enable cursorline!
 
 -- Set the terminal
 vim.o.shell = "powershell.exe"
+if vim.fn.has "win64" == 1 or vim.fn.has "win32" == 1 then
+    vim.opt.shellcmdflag =
+        "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
+    vim.opt.shellredir = "-RedirectStandardOutput %s -NoNewWindow -Wait"
+    vim.opt.shellpipe = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode"
+    vim.opt.shellquote = ""
+    vim.opt.shellxquote = ""
+end
 
 -- Set the clipboard
 vim.o.clipboard = "unnamedplus"

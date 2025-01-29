@@ -341,6 +341,7 @@ return {
             hide_numbers = true,
             insert_mappings = true,
             terminal_mappings = true,
+            shell = vim.o.shell,
             start_in_insert = true,
             close_on_exit = true,
         },
