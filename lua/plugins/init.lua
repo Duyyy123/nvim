@@ -72,17 +72,10 @@ return {
     { "Hoffs/omnisharp-extended-lsp.nvim", lazy = true },
     {
         "folke/noice.nvim",
-        config = function()
-            require("noice").setup {
-                -- add any options here
-                -- routes = {
-                --   {
-                --     view = "notify",
-                --     filter = { event = "msg_showmode" },
-                --   },
-                -- },
-            }
-        end,
+        event = "VeryLazy",
+        opts = {
+            -- add any options here
+        },
         dependencies = {
             -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
             "MunifTanjim/nui.nvim",
