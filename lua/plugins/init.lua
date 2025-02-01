@@ -70,18 +70,20 @@ return {
 
     { "MunifTanjim/nui.nvim", lazy = true },
     { "Hoffs/omnisharp-extended-lsp.nvim", lazy = true },
-    -- leetcode plugin
+    -- lazy.nvim
     {
-        "kawre/leetcode.nvim",
-        build = ":TSUpdate html", -- if you have `nvim-treesitter` installed
-        dependencies = {
-            "nvim-telescope/telescope.nvim",
-            -- "ibhagwan/fzf-lua",
-            "nvim-lua/plenary.nvim",
-            "MunifTanjim/nui.nvim",
-        },
+        "folke/noice.nvim",
+        event = "VeryLazy",
         opts = {
-            -- configuration goes here
+            -- add any options here
+        },
+        dependencies = {
+            -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+            "MunifTanjim/nui.nvim",
+            -- OPTIONAL:
+            --   `nvim-notify` is only needed, if you want to use the notification view.
+            --   If not available, we use `mini` as the fallback
+            "rcarriga/nvim-notify",
         },
     },
     -- Outmeal
@@ -93,7 +95,7 @@ return {
         },
         opts = {
             backend = "ollama",
-            model = "codellama:lastest",
+            model = "codellama:latest",
         },
     },
     -- Copilot
