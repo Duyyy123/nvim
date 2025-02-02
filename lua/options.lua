@@ -8,6 +8,7 @@ o.cursorlineopt = "both" -- to enable cursorline!
 vim.o.shell = "/bin/zsh"
 
 -- Fold config
+vim.o.foldlevelstart = 99
 vim.opt.foldmethod = "indent"
 vim.opt.foldcolumn = "1"
 
