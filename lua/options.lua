@@ -75,6 +75,8 @@ local function CompileAndExcute()
         compile_type = "rustc"
     elseif file_ext == "java" then
         compile_type = "javac"
+    elseif file_ext == "py" then
+        compile_type = "python"
     end
     -- Path to current buffer
     local current_buffer_dir = vim.fn.expand "%:p:r"
@@ -94,6 +96,10 @@ local function CompileAndExcute()
     if compile_type == "javac" then
         compile_command = "javac " .. full_path .. " && " .. "java " .. path_without_ext .. "\n"
     end
+    if compile_type == "python" then
+        compile_command = "./" .. full_path .. "\n"
+    end
+
     -- Find the nearest Cargo.toml file
     local bin_name = nil
     local cargo_toml_path = nil
