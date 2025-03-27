@@ -22,7 +22,11 @@ lspconfig.ts_ls.setup {
     on_init = on_init,
     capabilities = capabilities,
 }
-
+-- SQL
+-- lspconfig.sqls.setup {
+--     on_attach = on_attach,
+--     capabilities = capabilities,
+-- }
 -- C plus plus
 lspconfig.clangd.setup {
     root_dir = util.root_pattern("compile_commands.json", "CMakeLists.txt", ".clangd"),
@@ -60,7 +64,23 @@ lspconfig.r_language_server.setup {
     end,
     capabilities = capabilities,
 }
-
+-- Go
+lspconfig.gopls.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    cmd = { "gopls" },
+    filetypes = { "go", "gomod", "gowork", "gotmpl" },
+    root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+    settings = {
+        gopls = {
+            completeUnimported = true,
+            usePlaceholders = true,
+            analyses = {
+                unusedparams = true,
+            },
+        },
+    },
+}
 -- Rust
 lspconfig.rust_analyzer.setup {
     on_attach = on_attach,

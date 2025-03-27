@@ -4,6 +4,7 @@ local options = {
         c = { "clang-format" },
         cpp = { "clang-format" },
         rust = { "rustfmt", lsp_format = "fallback" },
+        go = { "goimports-reviser" },
         zsh = { "beautysh" },
         python = function(bufnr)
             if require("conform").get_formatter_info("ruff_format", bufnr).available then
