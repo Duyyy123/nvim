@@ -35,9 +35,6 @@ return {
                 "debugpy",
                 "pyright",
                 "ruff",
-                -- c_sharp
-                "csharpier",
-                "netcoredbg",
                 -- DAP
                 "codelldb",
                 -- linter
@@ -60,26 +57,9 @@ return {
                 "rust",
                 "markdown",
                 "markdown_inline",
-                "r",
-                "rnoweb",
                 "yaml",
             },
             highlight = { enable = true },
         },
     },
-
-    { "MunifTanjim/nui.nvim", lazy = true },
-    { "Hoffs/omnisharp-extended-lsp.nvim", lazy = true },
-    -- Outmeal
-    -- return {
-    --     "dustinblackman/oatmeal.nvim",
-    --     cmd = { "Oatmeal" },
-    --     keys = {
-    --         { "<leader>om", mode = "n", desc = "Start Oatmeal session" },
-    --     },
-    --     opts = {
-    --         backend = "ollama",
-    --         model = "codellama:lastest",
-    --     },
-    -- }
 }
