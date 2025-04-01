@@ -46,15 +46,14 @@ return {
         "nvim-treesitter/nvim-treesitter",
         opts = {
             ensure_installed = {
-                "java",
                 "vim",
                 "lua",
                 "vimdoc",
                 "cpp",
                 "c",
-                "c_sharp",
-                "python",
                 "rust",
+                "java",
+                "python",
                 "markdown",
                 "markdown_inline",
                 "yaml",
