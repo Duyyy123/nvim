@@ -27,9 +27,10 @@ lspconfig.ts_ls.setup {
 --     on_attach = on_attach,
 --     capabilities = capabilities,
 -- }
+
 -- C plus plus
 lspconfig.clangd.setup {
-    root_dir = util.root_pattern("compile_commands.json", "CMakeLists.txt", ".clangd"),
+    -- root_dir = util.root_pattern("compile_commands.json", "CMakeLists.txt", ".clangd"),
     on_attach = on_attach,
     capabilities = capabilities,
     filetypes = { "c", "cpp" },
