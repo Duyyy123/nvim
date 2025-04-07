@@ -15,4 +15,12 @@ return {
             vim.g.db_ui_use_nerd_fonts = 1
         end,
     },
+    -- {
+    --     "xemptuous/sqlua.nvim",
+    --     lazy = true,
+    --     cmd = "SQLua",
+    --     config = function()
+    --         require("sqlua").setup()
+    --     end,
+    -- },
 }

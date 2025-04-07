@@ -23,14 +23,24 @@ lspconfig.ts_ls.setup {
     capabilities = capabilities,
 }
 -- SQL
--- lspconfig.sqls.setup {
---     on_attach = on_attach,
---     capabilities = capabilities,
--- }
+lspconfig.sqls.setup {
+    on_attach = on_attach,
+    settings = {
+        sqls = {
+            lowercaseKeywords = true,
+            connections = {
+                {
+                    driver = "mysql",
+                    dataSourceName = "bojack:huyduy@tcp(127.0.0.1:3306)/LeetCode",
+                },
+            },
+        },
+    },
+}
 
 -- C plus plus
 lspconfig.clangd.setup {
-    -- root_dir = util.root_pattern("compile_commands.json", "CMakeLists.txt", ".clangd"),
+    root_dir = util.root_pattern("compile_commands.json", "CMakeLists.txt", ".clangd"),
     on_attach = on_attach,
     capabilities = capabilities,
     filetypes = { "c", "cpp" },
